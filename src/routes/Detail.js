@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import styles from "./Detail.module.css";
 
 function Detail() {
   const { id } = useParams();
@@ -16,21 +17,35 @@ function Detail() {
     getMovie();
   });
   return (
-    <div>
+    <div className={styles.container}>
       {loading ? (
-        <h1>Loading...</h1>
+        <div className={styles.loader}>
+          <span>Loading...</span>
+        </div>
       ) : (
-        <div>
-          <h1>{movie.title}</h1>
-          <img src={movie.large_cover_image} alt={movie.title} />
-          <h4>Rating: {movie.rating}</h4>
-          <ul>
-            {movie.genres
-              ? movie.genres.map((genre, index) => <li key={index}>{genre}</li>)
-              : null}
-          </ul>
-          <hr />
-          <p>{movie.description_full}</p>
+        <div className={styles.movie}>
+          <img
+            src={movie.large_cover_image}
+            alt={movie.title}
+            className={styles.movie__img}
+          />
+          <div className={styles.col}>
+            <div>
+              <h2 className={styles.movie__title}>{movie.title_long}</h2>
+              <h3 className={styles.movie__year}>{movie.year}</h3>
+              <p>{movie.description_full}</p>
+            </div>
+            <div>
+              <div className={styles.movie__rating}>
+                Rating: {movie.rating} / 10.0
+              </div>
+              <ul className={styles.movie__genres}>
+                {movie.genres.map((g) => (
+                  <li key={g}>{g}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       )}
     </div>
